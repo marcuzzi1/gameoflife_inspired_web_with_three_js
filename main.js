@@ -1,3 +1,6 @@
+/**
+ * Firt things first, I was really tired when I made the first lines of code so... Yeah! Definitely some brain rot xD
+ */
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
@@ -19,12 +22,26 @@ function main() {
     // Creating a scene
     const scene = new THREE.Scene();
 
+    // Creating a box to mess with
+    const boxWidth = 1;
+    const boxHeight = 1;
+    const boxDepth = 1;
+    // (Do I really need to explain the 3 lines above?...)
+    const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth); // The box geometry (pretty obvious)
+    const material = new THREE.MeshBasicMaterial({ color: 0x44aa88 }); // Ooooh a fancy greenish blue!
+
+    const cube = new THREE.Mesh(geometry, material); // Putting it all together to create a cube
+    scene.add(cube); // Don't forget to add it to your scene
+
     /**
     * Main render function (for requestAnimationFrame)
     * @param {number} time Elapsed time
     */
     function render(time) {
         time *= 0.001; // Convert time to seconds
+
+        cube.rotation.x = time;
+        cube.rotation.y = time;
 
         renderer.render(scene, camera); // Tell the program to render things again (otherwise, it will be a static scene you are looking at)
         requestAnimationFrame(render); // Call the function again
