@@ -1,43 +1,36 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-const renderer = new THREE.WebGLRenderer(); // Creating renderer
-renderer.setSize(window.innerWidth, window.innerHeight); // His size
-document.body.appendChild(renderer.domElement); // Adding the renderer to the document (better for seeing something...)
+/**
+ * Main function of this program
+ */
+function main() {
+    const canvas = document.querySelector("#c"); // Obtaining the canvas from the document
+    const renderer = new THREE.WebGLRenderer({ antialias: true, canvas }); // Creating the renderer with WebGL
 
-// Creating camera
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
-camera.position.set(0, 0, 100);
-camera.lookAt(0, 0, 0);
+    // Settings camera
+    const fov = 75; // FOV of the camera
+    const aspect = window.innerWidth / window.innerHeight; // Aspect ratio calculated with window properties
+    const near = 0.1; // See from very close...
+    const far = 5; // ... To further away (adjust it if you need it)
+    const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.set(0, 0, 2); // Position of the camera (center and 2 units back there)
 
-// Creating the scene
-const scene = new THREE.Scene();
+    // Creating a scene
+    const scene = new THREE.Scene();
 
-// Testing some line drawing
-const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
-const points = [];
-points.push(new THREE.Vector3(0, 0, 0));
-points.push(new THREE.Vector3(10, 0, 0));
+    /**
+    * Main render function (for requestAnimationFrame)
+    * @param {number} time Elapsed time
+    */
+    function render(time) {
+        time *= 0.001; // Convert time to seconds
 
-const geometry = new THREE.BufferGeometry().setFromPoints(points);
-const line = new THREE.Line(geometry, material);
+        renderer.render(scene, camera); // Tell the program to render things again (otherwise, it will be a static scene you are looking at)
+        requestAnimationFrame(render); // Call the function again
+    }
 
-const material2 = new THREE.LineBasicMaterial({ color: 0xffffff });
-const points2 = [];
-points2.push(new THREE.Vector3(0, 0, 0));
-points2.push(new THREE.Vector3(0, 10, 0));
+    requestAnimationFrame(render); // First call of the render(time) function
+}
 
-const geometry2 = new THREE.BufferGeometry().setFromPoints(points2);
-const line2 = new THREE.Line(geometry2, material2);
-
-scene.add(line);
-scene.add(line2);
-
-renderer.render(scene, camera);
-
-// // Animate function
-// function animate() {
-//     renderer.render(scene, camera);
-
-// }
-// // Telling to use the animate function
-// renderer.setAnimationLoop(animate);
+main(); // Call the main function (important because it doesn't call itself lol)
