@@ -1,26 +1,43 @@
 import * as THREE from 'three';
 
-const scene = new THREE.Scene(); // Creating scene
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Creating camera
-
 const renderer = new THREE.WebGLRenderer(); // Creating renderer
 renderer.setSize(window.innerWidth, window.innerHeight); // His size
 document.body.appendChild(renderer.domElement); // Adding the renderer to the document (better for seeing something...)
 
-// Messing by creating a basic cube
-const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 3, 5);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// Creating camera
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
+camera.position.set(0, 0, 100);
+camera.lookAt(0, 0, 0);
 
-// Setting camera position
-camera.position.z = 2;
+// Creating the scene
+const scene = new THREE.Scene();
 
-// Animate function
-function animate() {
-    renderer.render(scene, camera);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-}
-// Telling to use the animate function
-renderer.setAnimationLoop(animate);
+// Testing some line drawing
+const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+const points = [];
+points.push(new THREE.Vector3(0, 0, 0));
+points.push(new THREE.Vector3(10, 0, 0));
+
+const geometry = new THREE.BufferGeometry().setFromPoints(points);
+const line = new THREE.Line(geometry, material);
+
+const material2 = new THREE.LineBasicMaterial({ color: 0xffffff });
+const points2 = [];
+points2.push(new THREE.Vector3(0, 0, 0));
+points2.push(new THREE.Vector3(0, 10, 0));
+
+const geometry2 = new THREE.BufferGeometry().setFromPoints(points2);
+const line2 = new THREE.Line(geometry2, material2);
+
+scene.add(line);
+scene.add(line2);
+
+renderer.render(scene, camera);
+
+// // Animate function
+// function animate() {
+//     renderer.render(scene, camera);
+
+// }
+// // Telling to use the animate function
+// renderer.setAnimationLoop(animate);
