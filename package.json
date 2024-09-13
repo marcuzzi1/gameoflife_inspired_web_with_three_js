@@ -1,0 +1,17 @@
+{
+  "name": "gameoflife",
+  "version": "1.0.0",
+  "description": "Little custom gameoflife inspired project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Quentin MARCUZZI",
+  "license": "MIT",
+  "dependencies": {
+    "three": "^0.168.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.4"
+  }
+}
